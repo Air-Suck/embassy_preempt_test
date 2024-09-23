@@ -1,0 +1,26 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/arm-none-eabi-gcc",
+      "-c",
+      "-mcpu=cortex-m4",
+      "-mthumb",
+      "-mfpu=fpv4-sp-d16",
+      "-mfloat-abi=soft",
+      "-Iinc",
+      "-O3",
+      "-Wall",
+      "-fdata-sections",
+      "-ffunction-sections",
+      "-g",
+      "-gdwarf-2",
+      "-Wa,-a,-ad,-alms=build/ffi_test.lst",
+      "-o",
+      "build/ffi_test.o",
+      "src/ffi_test.c"
+    ],
+    "directory": "/home/shinuohui/code/embassy_preempt/test",
+    "file": "/home/shinuohui/code/embassy_preempt/test/src/ffi_test.c",
+    "output": "/home/shinuohui/code/embassy_preempt/test/build/ffi_test.o"
+  }
+]

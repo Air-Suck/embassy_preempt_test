@@ -1,0 +1,631 @@
+ARM GAS  /tmp/ccEXqPIX.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 2
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"ffi_test.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.task,"ax",%progbits
+  16              		.align	1
+  17              		.p2align 2,,3
+  18              		.global	task
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu softvfp
+  25              	task:
+  26              	.LVL0:
+  27              	.LFB131:
+  28              		.file 1 "src/ffi_test.c"
+   1:src/ffi_test.c **** #include "stm32f401xe.h"
+   2:src/ffi_test.c **** #include <stdint.h>
+   3:src/ffi_test.c **** 
+   4:src/ffi_test.c **** // 定义OS_STK
+   5:src/ffi_test.c **** typedef uint32_t OS_STK;
+   6:src/ffi_test.c **** // 声明Rust函数
+   7:src/ffi_test.c **** extern uint8_t OSTaskCreate(void (*fun_ptr)(void *), void *p_arg, OS_STK *ptos,
+   8:src/ffi_test.c ****                              uint8_t prio);
+   9:src/ffi_test.c **** extern void OSInit();
+  10:src/ffi_test.c **** extern void OSStart();
+  11:src/ffi_test.c **** // 开灯操作，用宏定义
+  12:src/ffi_test.c **** #define LED2_ON() GPIOA->ODR |= 0x00000020; // 设置为1，即高电平
+  13:src/ffi_test.c **** // 关灯操作，用宏定义
+  14:src/ffi_test.c **** #define LED2_OFF() GPIOA->ODR &= ~0x00000020; // 设置为0，即低电平
+  15:src/ffi_test.c **** 
+  16:src/ffi_test.c **** // 阻塞函数
+  17:src/ffi_test.c **** void delay(uint32_t time) {
+  18:src/ffi_test.c ****   // 延时函数，time 的单位约为 0.5s，使用汇编编写从而不会被优化
+  19:src/ffi_test.c ****   __asm__ volatile(
+  20:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+  21:src/ffi_test.c ****       "mov r2, %0\n"
+  22:src/ffi_test.c ****       "mov r3, %1\n"
+  23:src/ffi_test.c ****       "mov r0, #0\n"
+  24:src/ffi_test.c ****       "1:\n"
+  25:src/ffi_test.c ****       // 内层循环
+  26:src/ffi_test.c ****       "mov r1, #0\n"
+  27:src/ffi_test.c ****       "2:\n"
+  28:src/ffi_test.c ****       "add r1, r1, #1\n"
+  29:src/ffi_test.c ****       "cmp r1, r3\n"
+  30:src/ffi_test.c ****       "blt 2b\n"
+ARM GAS  /tmp/ccEXqPIX.s 			page 2
+
+
+  31:src/ffi_test.c ****       // 外层循环
+  32:src/ffi_test.c ****       "add r0, r0, #1\n"
+  33:src/ffi_test.c ****       "cmp r0, r2\n"
+  34:src/ffi_test.c ****       "blt 1b\n"
+  35:src/ffi_test.c ****       :
+  36:src/ffi_test.c ****       : "r"(time), "r"(8000000 / 8)
+  37:src/ffi_test.c ****       : "r0", "r1", "r2", "r3");
+  38:src/ffi_test.c **** }
+  39:src/ffi_test.c **** // 定义任务函数
+  40:src/ffi_test.c **** void task(void *p_arg) {
+  29              		.loc 1 40 24 view -0
+  30              		.cfi_startproc
+  31              		@ Volatile: function does not return.
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  41:src/ffi_test.c ****   while (1) {
+  42:src/ffi_test.c ****     LED2_ON();
+  34              		.loc 1 42 5 is_stmt 0 view .LVU1
+  35 0000 144D     		ldr	r5, .L5
+  36              	.LBB6:
+  37              	.LBB7:
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+  38              		.loc 1 19 3 view .LVU2
+  39 0002 154C     		ldr	r4, .L5+4
+  40              	.LBE7:
+  41              	.LBE6:
+  40:src/ffi_test.c ****   while (1) {
+  42              		.loc 1 40 24 view .LVU3
+  43 0004 00B5     		push	{lr}
+  44              	.LCFI0:
+  45              		.cfi_def_cfa_offset 4
+  46              		.cfi_offset 14, -4
+  47              	.LBB10:
+  48              	.LBB8:
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+  49              		.loc 1 19 3 view .LVU4
+  50 0006 4FF0050E 		mov	lr, #5
+  51              	.LVL1:
+  52              	.L2:
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+  53              		.loc 1 19 3 view .LVU5
+  54              	.LBE8:
+  55              	.LBE10:
+  41:src/ffi_test.c ****   while (1) {
+  56              		.loc 1 41 3 is_stmt 1 discriminator 1 view .LVU6
+  57              		.loc 1 42 5 discriminator 1 view .LVU7
+  58 000a 6B69     		ldr	r3, [r5, #20]
+  59 000c 43F02003 		orr	r3, r3, #32
+  60 0010 6B61     		str	r3, [r5, #20]
+  61              		.loc 1 42 14 discriminator 1 view .LVU8
+  43:src/ffi_test.c ****     delay(5);
+  62              		.loc 1 43 5 discriminator 1 view .LVU9
+  63              	.LVL2:
+  64              	.LBB11:
+  65              	.LBI6:
+  17:src/ffi_test.c ****   // 延时函数，time 的单位约为 0.5s，使用汇编编写从而不会被优化
+  66              		.loc 1 17 6 discriminator 1 view .LVU10
+ARM GAS  /tmp/ccEXqPIX.s 			page 3
+
+
+  67              	.LBB9:
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+  68              		.loc 1 19 3 discriminator 1 view .LVU11
+  69              		.syntax unified
+  70              	@ 19 "src/ffi_test.c" 1
+  71 0012 7246     		mov r2, lr
+  72 0014 2346     	mov r3, r4
+  73 0016 4FF00000 	mov r0, #0
+  74              	1:
+  75 001a 4FF00001 	mov r1, #0
+  76              	2:
+  77 001e 01F10101 	add r1, r1, #1
+  78 0022 9942     	cmp r1, r3
+  79 0024 FBDB     	blt 2b
+  80 0026 00F10100 	add r0, r0, #1
+  81 002a 9042     	cmp r0, r2
+  82 002c F5DB     	blt 1b
+  83              	
+  84              	@ 0 "" 2
+  85              	.LVL3:
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+  86              		.loc 1 19 3 is_stmt 0 discriminator 1 view .LVU12
+  87              		.thumb
+  88              		.syntax unified
+  89              	.LBE9:
+  90              	.LBE11:
+  44:src/ffi_test.c ****     LED2_OFF();
+  91              		.loc 1 44 5 is_stmt 1 discriminator 1 view .LVU13
+  92 002e 6B69     		ldr	r3, [r5, #20]
+  93 0030 23F02003 		bic	r3, r3, #32
+  94 0034 6B61     		str	r3, [r5, #20]
+  95              		.loc 1 44 15 discriminator 1 view .LVU14
+  45:src/ffi_test.c ****     delay(5);
+  96              		.loc 1 45 5 discriminator 1 view .LVU15
+  97              	.LVL4:
+  98              	.LBB12:
+  99              	.LBI12:
+  17:src/ffi_test.c ****   // 延时函数，time 的单位约为 0.5s，使用汇编编写从而不会被优化
+ 100              		.loc 1 17 6 discriminator 1 view .LVU16
+ 101              	.LBB13:
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+ 102              		.loc 1 19 3 discriminator 1 view .LVU17
+ 103              		.syntax unified
+ 104              	@ 19 "src/ffi_test.c" 1
+ 105 0036 7246     		mov r2, lr
+ 106 0038 2346     	mov r3, r4
+ 107 003a 4FF00000 	mov r0, #0
+ 108              	1:
+ 109 003e 4FF00001 	mov r1, #0
+ 110              	2:
+ 111 0042 01F10101 	add r1, r1, #1
+ 112 0046 9942     	cmp r1, r3
+ 113 0048 FBDB     	blt 2b
+ 114 004a 00F10100 	add r0, r0, #1
+ 115 004e 9042     	cmp r0, r2
+ 116 0050 F5DB     	blt 1b
+ 117              	
+ARM GAS  /tmp/ccEXqPIX.s 			page 4
+
+
+ 118              	@ 0 "" 2
+ 119              		.thumb
+ 120              		.syntax unified
+ 121 0052 DAE7     		b	.L2
+ 122              	.L6:
+ 123              		.align	2
+ 124              	.L5:
+ 125 0054 00000240 		.word	1073872896
+ 126 0058 40420F00 		.word	1000000
+ 127              	.LBE13:
+ 128              	.LBE12:
+ 129              		.cfi_endproc
+ 130              	.LFE131:
+ 132              		.section	.text.delay,"ax",%progbits
+ 133              		.align	1
+ 134              		.p2align 2,,3
+ 135              		.global	delay
+ 136              		.syntax unified
+ 137              		.thumb
+ 138              		.thumb_func
+ 139              		.fpu softvfp
+ 141              	delay:
+ 142              	.LVL5:
+ 143              	.LFB130:
+  17:src/ffi_test.c ****   // 延时函数，time 的单位约为 0.5s，使用汇编编写从而不会被优化
+ 144              		.loc 1 17 27 view -0
+ 145              		.cfi_startproc
+ 146              		@ args = 0, pretend = 0, frame = 0
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              		@ link register save eliminated.
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+ 149              		.loc 1 19 3 view .LVU19
+  17:src/ffi_test.c ****   // 延时函数，time 的单位约为 0.5s，使用汇编编写从而不会被优化
+ 150              		.loc 1 17 27 is_stmt 0 view .LVU20
+ 151 0000 10B4     		push	{r4}
+ 152              	.LCFI1:
+ 153              		.cfi_def_cfa_offset 4
+ 154              		.cfi_offset 4, -4
+  17:src/ffi_test.c ****   // 延时函数，time 的单位约为 0.5s，使用汇编编写从而不会被优化
+ 155              		.loc 1 17 27 view .LVU21
+ 156 0002 8446     		mov	ip, r0
+  19:src/ffi_test.c ****       // 先来个循环（总共是两层循环，内层循环次数 8000000）
+ 157              		.loc 1 19 3 view .LVU22
+ 158 0004 084C     		ldr	r4, .L9
+ 159              		.syntax unified
+ 160              	@ 19 "src/ffi_test.c" 1
+ 161 0006 6246     		mov r2, ip
+ 162 0008 2346     	mov r3, r4
+ 163 000a 4FF00000 	mov r0, #0
+ 164              	1:
+ 165 000e 4FF00001 	mov r1, #0
+ 166              	2:
+ 167 0012 01F10101 	add r1, r1, #1
+ 168 0016 9942     	cmp r1, r3
+ 169 0018 FBDB     	blt 2b
+ 170 001a 00F10100 	add r0, r0, #1
+ 171 001e 9042     	cmp r0, r2
+ARM GAS  /tmp/ccEXqPIX.s 			page 5
+
+
+ 172 0020 F5DB     	blt 1b
+ 173              	
+ 174              	@ 0 "" 2
+ 175              	.LVL6:
+  38:src/ffi_test.c **** // 定义任务函数
+ 176              		.loc 1 38 1 view .LVU23
+ 177              		.thumb
+ 178              		.syntax unified
+ 179 0022 10BC     		pop	{r4}
+ 180              	.LCFI2:
+ 181              		.cfi_restore 4
+ 182              		.cfi_def_cfa_offset 0
+ 183 0024 7047     		bx	lr
+ 184              	.L10:
+ 185 0026 00BF     		.align	2
+ 186              	.L9:
+ 187 0028 40420F00 		.word	1000000
+ 188              		.cfi_endproc
+ 189              	.LFE130:
+ 191              		.section	.text.LED2_Init,"ax",%progbits
+ 192              		.align	1
+ 193              		.p2align 2,,3
+ 194              		.global	LED2_Init
+ 195              		.syntax unified
+ 196              		.thumb
+ 197              		.thumb_func
+ 198              		.fpu softvfp
+ 200              	LED2_Init:
+ 201              	.LFB132:
+  46:src/ffi_test.c ****   }
+  47:src/ffi_test.c **** }
+  48:src/ffi_test.c **** 
+  49:src/ffi_test.c **** // 点亮LED2，对应PA5，操作GPIO口
+  50:src/ffi_test.c **** void LED2_Init(void) {
+ 202              		.loc 1 50 22 is_stmt 1 view -0
+ 203              		.cfi_startproc
+ 204              		@ args = 0, pretend = 0, frame = 0
+ 205              		@ frame_needed = 0, uses_anonymous_args = 0
+ 206              		@ link register save eliminated.
+  51:src/ffi_test.c ****   // 先设置GPIO的模式，对应GPIO的MODER寄存器
+  52:src/ffi_test.c ****   GPIOA->MODER &= ~0x00000C00; // 先清零
+ 207              		.loc 1 52 3 view .LVU25
+ 208              		.loc 1 52 16 is_stmt 0 view .LVU26
+ 209 0000 0E4B     		ldr	r3, .L12
+ 210 0002 1A68     		ldr	r2, [r3]
+ 211 0004 22F44062 		bic	r2, r2, #3072
+ 212 0008 1A60     		str	r2, [r3]
+  53:src/ffi_test.c ****   GPIOA->MODER |= 0x00000400;  // 设置为01，即输出模式
+ 213              		.loc 1 53 3 is_stmt 1 view .LVU27
+ 214              		.loc 1 53 16 is_stmt 0 view .LVU28
+ 215 000a 1A68     		ldr	r2, [r3]
+ 216 000c 42F48062 		orr	r2, r2, #1024
+ 217 0010 1A60     		str	r2, [r3]
+  54:src/ffi_test.c ****   // 设置GPIO的输出类型，对应GPIO的OTYPER寄存器
+  55:src/ffi_test.c ****   GPIOA->OTYPER &= ~0x00000020; // 先清零,不过PUSH-PULL模式置为就是为0
+ 218              		.loc 1 55 3 is_stmt 1 view .LVU29
+ 219              		.loc 1 55 17 is_stmt 0 view .LVU30
+ARM GAS  /tmp/ccEXqPIX.s 			page 6
+
+
+ 220 0012 5A68     		ldr	r2, [r3, #4]
+ 221 0014 22F02002 		bic	r2, r2, #32
+ 222 0018 5A60     		str	r2, [r3, #4]
+  56:src/ffi_test.c ****   // 设置GPIO的输出速度，对应GPIO的OSPEEDR寄存器，这里我们设置为高速吧
+  57:src/ffi_test.c ****   GPIOA->OSPEEDR &= ~0x00000C00; // 先清零
+ 223              		.loc 1 57 3 is_stmt 1 view .LVU31
+ 224              		.loc 1 57 18 is_stmt 0 view .LVU32
+ 225 001a 9A68     		ldr	r2, [r3, #8]
+ 226 001c 22F44062 		bic	r2, r2, #3072
+ 227 0020 9A60     		str	r2, [r3, #8]
+  58:src/ffi_test.c ****   GPIOA->OSPEEDR |= 0x00000800;  // 设置为10，即高速
+ 228              		.loc 1 58 3 is_stmt 1 view .LVU33
+ 229              		.loc 1 58 18 is_stmt 0 view .LVU34
+ 230 0022 9A68     		ldr	r2, [r3, #8]
+ 231 0024 42F40062 		orr	r2, r2, #2048
+ 232 0028 9A60     		str	r2, [r3, #8]
+  59:src/ffi_test.c ****   // 设置GPIO的上下拉电阻，对应GPIO的PUPDR寄存器，这里我们设置为没有上下
+  60:src/ffi_test.c ****   GPIOA->PUPDR &= ~0x00000C00; // 先清零
+ 233              		.loc 1 60 3 is_stmt 1 view .LVU35
+ 234              		.loc 1 60 16 is_stmt 0 view .LVU36
+ 235 002a DA68     		ldr	r2, [r3, #12]
+ 236 002c 22F44062 		bic	r2, r2, #3072
+ 237 0030 DA60     		str	r2, [r3, #12]
+  61:src/ffi_test.c ****   // 最后设置GPIO的输出值，对应GPIO的ODR寄存器，这里我们设置为高电平
+  62:src/ffi_test.c ****   GPIOA->ODR |= 0x00000020; // 设置为1，即高电平
+ 238              		.loc 1 62 3 is_stmt 1 view .LVU37
+ 239              		.loc 1 62 14 is_stmt 0 view .LVU38
+ 240 0032 5A69     		ldr	r2, [r3, #20]
+ 241 0034 42F02002 		orr	r2, r2, #32
+ 242 0038 5A61     		str	r2, [r3, #20]
+  63:src/ffi_test.c **** }
+ 243              		.loc 1 63 1 view .LVU39
+ 244 003a 7047     		bx	lr
+ 245              	.L13:
+ 246              		.align	2
+ 247              	.L12:
+ 248 003c 00000240 		.word	1073872896
+ 249              		.cfi_endproc
+ 250              	.LFE132:
+ 252              		.section	.text.RCC_Configuration,"ax",%progbits
+ 253              		.align	1
+ 254              		.p2align 2,,3
+ 255              		.global	RCC_Configuration
+ 256              		.syntax unified
+ 257              		.thumb
+ 258              		.thumb_func
+ 259              		.fpu softvfp
+ 261              	RCC_Configuration:
+ 262              	.LFB133:
+  64:src/ffi_test.c **** // 写一个时钟初始化的函数，配置为HSE，PLLM为4，PLLN为84，PLLP分频为2，PLLQ�
+  65:src/ffi_test.c **** // ，得到主频为84Mhz
+  66:src/ffi_test.c **** void RCC_Configuration(void) {
+ 263              		.loc 1 66 30 is_stmt 1 view -0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              		@ link register save eliminated.
+ARM GAS  /tmp/ccEXqPIX.s 			page 7
+
+
+  67:src/ffi_test.c ****   // 先把PLL和PLL2S disable了
+  68:src/ffi_test.c ****   RCC->CR &= ~0x05000000;
+ 268              		.loc 1 68 3 view .LVU41
+ 269              		.loc 1 68 11 is_stmt 0 view .LVU42
+ 270 0000 1C4B     		ldr	r3, .L24
+  69:src/ffi_test.c ****   // 先该各个分频系数,并且选择PLLSRC，把HSE设置为PLL的输入源
+  70:src/ffi_test.c ****   RCC->PLLCFGR =
+ 271              		.loc 1 70 16 view .LVU43
+ 272 0002 1D49     		ldr	r1, .L24+4
+  68:src/ffi_test.c ****   // 先该各个分频系数,并且选择PLLSRC，把HSE设置为PLL的输入源
+ 273              		.loc 1 68 11 view .LVU44
+ 274 0004 1A68     		ldr	r2, [r3]
+ 275 0006 22F0A062 		bic	r2, r2, #83886080
+ 276 000a 1A60     		str	r2, [r3]
+ 277              		.loc 1 70 3 is_stmt 1 view .LVU45
+ 278              		.loc 1 70 16 is_stmt 0 view .LVU46
+ 279 000c 5960     		str	r1, [r3, #4]
+  71:src/ffi_test.c ****       0b00000100010000000001010100000100; // 0x4401504的二进制是：0000 0100 0100
+  72:src/ffi_test.c ****                                           // 0000 0001 0101 0000 0100
+  73:src/ffi_test.c ****   // 上面的配置是：PLLM=4, PLLN=84, PLLP=2, PLLQ=4，并且设置HSE为PLL的输入源
+  74:src/ffi_test.c ****   // 设置AHB的分频系数为1
+  75:src/ffi_test.c ****   RCC->CFGR &= ~0xF0;
+ 280              		.loc 1 75 3 is_stmt 1 view .LVU47
+ 281              		.loc 1 75 13 is_stmt 0 view .LVU48
+ 282 000e 9A68     		ldr	r2, [r3, #8]
+ 283 0010 22F0F002 		bic	r2, r2, #240
+ 284 0014 9A60     		str	r2, [r3, #8]
+  76:src/ffi_test.c ****   // 设置APB1的分频系数为2，APB2的分频系数为1
+  77:src/ffi_test.c ****   RCC->CFGR |= 0x1000;
+ 285              		.loc 1 77 3 is_stmt 1 view .LVU49
+ 286              		.loc 1 77 13 is_stmt 0 view .LVU50
+ 287 0016 9A68     		ldr	r2, [r3, #8]
+ 288 0018 42F48052 		orr	r2, r2, #4096
+ 289 001c 9A60     		str	r2, [r3, #8]
+  78:src/ffi_test.c ****   RCC->CFGR &= ~0xE000;
+ 290              		.loc 1 78 3 is_stmt 1 view .LVU51
+ 291              		.loc 1 78 13 is_stmt 0 view .LVU52
+ 292 001e 9A68     		ldr	r2, [r3, #8]
+ 293 0020 22F46042 		bic	r2, r2, #57344
+ 294 0024 9A60     		str	r2, [r3, #8]
+  79:src/ffi_test.c ****   // 设置启动HSE，开启PLL和PLL2S
+  80:src/ffi_test.c ****   RCC->CR |= 0b00000101000000010000000000000000; // 0x5010000
+ 295              		.loc 1 80 3 is_stmt 1 view .LVU53
+ 296              		.loc 1 80 11 is_stmt 0 view .LVU54
+ 297 0026 1A68     		ldr	r2, [r3]
+ 298 0028 42F0A062 		orr	r2, r2, #83886080
+ 299 002c 42F48032 		orr	r2, r2, #65536
+ 300 0030 1A60     		str	r2, [r3]
+  81:src/ffi_test.c ****   // 加入保护代码，检查HSE和PLL、PLL2S的启动状态：
+  82:src/ffi_test.c ****   while ((RCC->CR & 0x00020000) == 0)
+ 301              		.loc 1 82 3 is_stmt 1 view .LVU55
+ 302              	.L15:
+  83:src/ffi_test.c ****     ; // 等待HSE启动成功
+ 303              		.loc 1 83 5 discriminator 1 view .LVU56
+  82:src/ffi_test.c ****     ; // 等待HSE启动成功
+ 304              		.loc 1 82 9 discriminator 1 view .LVU57
+  82:src/ffi_test.c ****     ; // 等待HSE启动成功
+ARM GAS  /tmp/ccEXqPIX.s 			page 8
+
+
+ 305              		.loc 1 82 14 is_stmt 0 discriminator 1 view .LVU58
+ 306 0032 1A68     		ldr	r2, [r3]
+  82:src/ffi_test.c ****     ; // 等待HSE启动成功
+ 307              		.loc 1 82 9 discriminator 1 view .LVU59
+ 308 0034 9003     		lsls	r0, r2, #14
+ 309 0036 FCD5     		bpl	.L15
+  84:src/ffi_test.c ****   while ((RCC->CR & 0x02000000) == 0)
+ 310              		.loc 1 84 14 view .LVU60
+ 311 0038 0E4A     		ldr	r2, .L24
+ 312              	.L16:
+  85:src/ffi_test.c ****     ; // 等待PLL启动成功
+ 313              		.loc 1 85 5 is_stmt 1 discriminator 1 view .LVU61
+  84:src/ffi_test.c ****   while ((RCC->CR & 0x02000000) == 0)
+ 314              		.loc 1 84 9 discriminator 1 view .LVU62
+  84:src/ffi_test.c ****   while ((RCC->CR & 0x02000000) == 0)
+ 315              		.loc 1 84 14 is_stmt 0 discriminator 1 view .LVU63
+ 316 003a 1368     		ldr	r3, [r2]
+  84:src/ffi_test.c ****   while ((RCC->CR & 0x02000000) == 0)
+ 317              		.loc 1 84 9 discriminator 1 view .LVU64
+ 318 003c 9901     		lsls	r1, r3, #6
+ 319 003e FCD5     		bpl	.L16
+  86:src/ffi_test.c ****   while ((RCC->CR & 0x08000000) == 0)
+ 320              		.loc 1 86 14 view .LVU65
+ 321 0040 0C4A     		ldr	r2, .L24
+ 322              	.L17:
+  87:src/ffi_test.c ****     ; // 等待PLL2S启动成功
+ 323              		.loc 1 87 5 is_stmt 1 discriminator 1 view .LVU66
+  86:src/ffi_test.c ****   while ((RCC->CR & 0x08000000) == 0)
+ 324              		.loc 1 86 9 discriminator 1 view .LVU67
+  86:src/ffi_test.c ****   while ((RCC->CR & 0x08000000) == 0)
+ 325              		.loc 1 86 14 is_stmt 0 discriminator 1 view .LVU68
+ 326 0042 1368     		ldr	r3, [r2]
+  86:src/ffi_test.c ****   while ((RCC->CR & 0x08000000) == 0)
+ 327              		.loc 1 86 9 discriminator 1 view .LVU69
+ 328 0044 1B01     		lsls	r3, r3, #4
+ 329 0046 FCD5     		bpl	.L17
+  88:src/ffi_test.c ****   // HSE启动成功后，使能FLASH预存取缓冲区
+  89:src/ffi_test.c ****   FLASH->ACR |= FLASH_ACR_PRFTEN;
+ 330              		.loc 1 89 3 is_stmt 1 view .LVU70
+ 331              		.loc 1 89 14 is_stmt 0 view .LVU71
+ 332 0048 0C4B     		ldr	r3, .L24+8
+ 333 004a 1968     		ldr	r1, [r3]
+ 334 004c 41F48071 		orr	r1, r1, #256
+ 335 0050 1960     		str	r1, [r3]
+  90:src/ffi_test.c ****   // 设置FLASH的延时周期
+  91:src/ffi_test.c ****   FLASH->ACR |= FLASH_ACR_LATENCY_2WS;
+ 336              		.loc 1 91 3 is_stmt 1 view .LVU72
+ 337              		.loc 1 91 14 is_stmt 0 view .LVU73
+ 338 0052 1968     		ldr	r1, [r3]
+ 339 0054 41F00201 		orr	r1, r1, #2
+ 340 0058 1960     		str	r1, [r3]
+  92:src/ffi_test.c ****   // 更改系统的时钟源为PLL
+  93:src/ffi_test.c ****   RCC->CFGR |= 0x00000002;
+ 341              		.loc 1 93 3 is_stmt 1 view .LVU74
+ 342              		.loc 1 93 13 is_stmt 0 view .LVU75
+ 343 005a 9368     		ldr	r3, [r2, #8]
+ 344 005c 43F00203 		orr	r3, r3, #2
+ARM GAS  /tmp/ccEXqPIX.s 			page 9
+
+
+ 345 0060 9360     		str	r3, [r2, #8]
+  94:src/ffi_test.c ****   // 关闭HSI
+  95:src/ffi_test.c ****   RCC->CR &= ~0x00000001;
+ 346              		.loc 1 95 3 is_stmt 1 view .LVU76
+ 347              		.loc 1 95 11 is_stmt 0 view .LVU77
+ 348 0062 1368     		ldr	r3, [r2]
+ 349 0064 23F00103 		bic	r3, r3, #1
+ 350 0068 1360     		str	r3, [r2]
+  96:src/ffi_test.c ****   // 接下来我们需要设置外设的时钟使能，点灯的时候用到AHB1上的GPIOA
+  97:src/ffi_test.c ****   RCC->AHB1ENR |= 0x00000001;
+ 351              		.loc 1 97 3 is_stmt 1 view .LVU78
+ 352              		.loc 1 97 16 is_stmt 0 view .LVU79
+ 353 006a 136B     		ldr	r3, [r2, #48]
+ 354 006c 43F00103 		orr	r3, r3, #1
+ 355 0070 1363     		str	r3, [r2, #48]
+  98:src/ffi_test.c **** }
+ 356              		.loc 1 98 1 view .LVU80
+ 357 0072 7047     		bx	lr
+ 358              	.L25:
+ 359              		.align	2
+ 360              	.L24:
+ 361 0074 00380240 		.word	1073887232
+ 362 0078 04154004 		.word	71308548
+ 363 007c 003C0240 		.word	1073888256
+ 364              		.cfi_endproc
+ 365              	.LFE133:
+ 367              		.section	.text.startup.main,"ax",%progbits
+ 368              		.align	1
+ 369              		.p2align 2,,3
+ 370              		.global	main
+ 371              		.syntax unified
+ 372              		.thumb
+ 373              		.thumb_func
+ 374              		.fpu softvfp
+ 376              	main:
+ 377              	.LFB134:
+  99:src/ffi_test.c **** OS_STK my_task_stk[1024];
+ 100:src/ffi_test.c **** 
+ 101:src/ffi_test.c **** int main() {
+ 378              		.loc 1 101 12 is_stmt 1 view -0
+ 379              		.cfi_startproc
+ 380              		@ Volatile: function does not return.
+ 381              		@ args = 0, pretend = 0, frame = 0
+ 382              		@ frame_needed = 0, uses_anonymous_args = 0
+ 102:src/ffi_test.c ****   // 时钟初始化
+ 103:src/ffi_test.c ****   RCC_Configuration();
+ 383              		.loc 1 103 3 view .LVU82
+ 101:src/ffi_test.c ****   // 时钟初始化
+ 384              		.loc 1 101 12 is_stmt 0 view .LVU83
+ 385 0000 08B5     		push	{r3, lr}
+ 386              	.LCFI3:
+ 387              		.cfi_def_cfa_offset 8
+ 388              		.cfi_offset 3, -8
+ 389              		.cfi_offset 14, -4
+ 390              		.loc 1 103 3 view .LVU84
+ 391 0002 FFF7FEFF 		bl	RCC_Configuration
+ 392              	.LVL7:
+ARM GAS  /tmp/ccEXqPIX.s 			page 10
+
+
+ 104:src/ffi_test.c ****   LED2_Init();
+ 393              		.loc 1 104 3 is_stmt 1 view .LVU85
+ 394 0006 FFF7FEFF 		bl	LED2_Init
+ 395              	.LVL8:
+ 105:src/ffi_test.c ****   LED2_OFF();
+ 396              		.loc 1 105 3 view .LVU86
+ 397 000a 084A     		ldr	r2, .L29
+ 398 000c 5369     		ldr	r3, [r2, #20]
+ 399 000e 23F02003 		bic	r3, r3, #32
+ 400 0012 5361     		str	r3, [r2, #20]
+ 401              		.loc 1 105 13 view .LVU87
+ 106:src/ffi_test.c ****   OSInit();
+ 402              		.loc 1 106 3 view .LVU88
+ 403 0014 FFF7FEFF 		bl	OSInit
+ 404              	.LVL9:
+ 107:src/ffi_test.c ****   // 调用Rust函数
+ 108:src/ffi_test.c ****   OSTaskCreate(task, 0, &my_task_stk[1024 - 1u], 12);
+ 405              		.loc 1 108 3 view .LVU89
+ 406 0018 054A     		ldr	r2, .L29+4
+ 407 001a 0648     		ldr	r0, .L29+8
+ 408 001c 0C23     		movs	r3, #12
+ 409 001e 0021     		movs	r1, #0
+ 410 0020 FFF7FEFF 		bl	OSTaskCreate
+ 411              	.LVL10:
+ 109:src/ffi_test.c ****   OSStart();
+ 412              		.loc 1 109 3 view .LVU90
+ 413 0024 FFF7FEFF 		bl	OSStart
+ 414              	.LVL11:
+ 415              	.L27:
+ 110:src/ffi_test.c ****   while (1);
+ 416              		.loc 1 110 3 discriminator 1 view .LVU91
+ 417              		.loc 1 110 12 discriminator 1 view .LVU92
+ 418              		.loc 1 110 9 discriminator 1 view .LVU93
+ 419              		.loc 1 110 3 discriminator 1 view .LVU94
+ 420              		.loc 1 110 12 discriminator 1 view .LVU95
+ 421              		.loc 1 110 9 discriminator 1 view .LVU96
+ 422 0028 FEE7     		b	.L27
+ 423              	.L30:
+ 424 002a 00BF     		.align	2
+ 425              	.L29:
+ 426 002c 00000240 		.word	1073872896
+ 427 0030 FC0F0000 		.word	my_task_stk+4092
+ 428 0034 00000000 		.word	task
+ 429              		.cfi_endproc
+ 430              	.LFE134:
+ 432              		.global	my_task_stk
+ 433              		.section	.bss.my_task_stk,"aw",%nobits
+ 434              		.align	2
+ 437              	my_task_stk:
+ 438 0000 00000000 		.space	4096
+ 438      00000000 
+ 438      00000000 
+ 438      00000000 
+ 438      00000000 
+ 439              		.text
+ 440              	.Letext0:
+ 441              		.file 2 "inc/stm32f401xe.h"
+ARM GAS  /tmp/ccEXqPIX.s 			page 11
+
+
+ 442              		.file 3 "/usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h"
+ARM GAS  /tmp/ccEXqPIX.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ffi_test.c
+     /tmp/ccEXqPIX.s:16     .text.task:0000000000000000 $t
+     /tmp/ccEXqPIX.s:25     .text.task:0000000000000000 task
+     /tmp/ccEXqPIX.s:125    .text.task:0000000000000054 $d
+     /tmp/ccEXqPIX.s:133    .text.delay:0000000000000000 $t
+     /tmp/ccEXqPIX.s:141    .text.delay:0000000000000000 delay
+     /tmp/ccEXqPIX.s:187    .text.delay:0000000000000028 $d
+     /tmp/ccEXqPIX.s:192    .text.LED2_Init:0000000000000000 $t
+     /tmp/ccEXqPIX.s:200    .text.LED2_Init:0000000000000000 LED2_Init
+     /tmp/ccEXqPIX.s:248    .text.LED2_Init:000000000000003c $d
+     /tmp/ccEXqPIX.s:253    .text.RCC_Configuration:0000000000000000 $t
+     /tmp/ccEXqPIX.s:261    .text.RCC_Configuration:0000000000000000 RCC_Configuration
+     /tmp/ccEXqPIX.s:361    .text.RCC_Configuration:0000000000000074 $d
+     /tmp/ccEXqPIX.s:368    .text.startup.main:0000000000000000 $t
+     /tmp/ccEXqPIX.s:376    .text.startup.main:0000000000000000 main
+     /tmp/ccEXqPIX.s:426    .text.startup.main:000000000000002c $d
+     /tmp/ccEXqPIX.s:437    .bss.my_task_stk:0000000000000000 my_task_stk
+     /tmp/ccEXqPIX.s:434    .bss.my_task_stk:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+OSInit
+OSTaskCreate
+OSStart
