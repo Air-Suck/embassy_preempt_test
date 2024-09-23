@@ -1,0 +1,5 @@
+cargo:rustc-cfg=cortex_m
+cargo:rustc-cfg=armv7m
+cargo:rustc-link-search=/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/build/cortex-m-rt-e481302bbd8571e0/out
+cargo:rerun-if-changed=build.rs
+cargo:rerun-if-changed=link.x.in

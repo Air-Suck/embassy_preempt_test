@@ -1,0 +1,3 @@
+cargo:rustc-link-search=/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/debug/build/defmt-bd62717dbf5be4cc/out
+cargo:rustc-check-cfg=cfg(c_variadic)
+cargo:rustc-check-cfg=cfg(no_cas)

@@ -1,0 +1,12 @@
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/deps/libdefmt_rtt-549c9c14a9627c0f.rmeta: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/channel.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/consts.rs /home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/build/defmt-rtt-67e03450518f3e98/out/consts.rs
+
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/deps/libdefmt_rtt-549c9c14a9627c0f.rlib: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/channel.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/consts.rs /home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/build/defmt-rtt-67e03450518f3e98/out/consts.rs
+
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/deps/defmt_rtt-549c9c14a9627c0f.d: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/channel.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/consts.rs /home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/build/defmt-rtt-67e03450518f3e98/out/consts.rs
+
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/lib.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/channel.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/defmt-rtt-0.4.1/src/consts.rs:
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/build/defmt-rtt-67e03450518f3e98/out/consts.rs:
+
+# env-dep:OUT_DIR=/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/build/defmt-rtt-67e03450518f3e98/out

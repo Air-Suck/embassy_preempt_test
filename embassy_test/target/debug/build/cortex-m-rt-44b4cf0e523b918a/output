@@ -1,0 +1,3 @@
+cargo:rustc-link-search=/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/debug/build/cortex-m-rt-44b4cf0e523b918a/out
+cargo:rerun-if-changed=build.rs
+cargo:rerun-if-changed=link.x.in

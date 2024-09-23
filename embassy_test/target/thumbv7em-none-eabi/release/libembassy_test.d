@@ -1,0 +1,1 @@
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/libembassy_test.rlib: /home/shinuohui/code/embassy_preempt/performance_test/embassy_test/src/lib.rs

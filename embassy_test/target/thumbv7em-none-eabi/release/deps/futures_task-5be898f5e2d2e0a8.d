@@ -1,0 +1,10 @@
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/deps/libfutures_task-5be898f5e2d2e0a8.rmeta: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/spawn.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/future_obj.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/noop_waker.rs
+
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/deps/libfutures_task-5be898f5e2d2e0a8.rlib: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/spawn.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/future_obj.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/noop_waker.rs
+
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/thumbv7em-none-eabi/release/deps/futures_task-5be898f5e2d2e0a8.d: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/spawn.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/future_obj.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/noop_waker.rs
+
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/lib.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/spawn.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/future_obj.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/futures-task-0.3.30/src/noop_waker.rs:

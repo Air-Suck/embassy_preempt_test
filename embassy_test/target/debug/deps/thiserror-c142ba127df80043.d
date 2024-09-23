@@ -1,0 +1,10 @@
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/debug/deps/libthiserror-c142ba127df80043.rmeta: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/aserror.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/display.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/provide.rs
+
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/debug/deps/libthiserror-c142ba127df80043.rlib: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/aserror.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/display.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/provide.rs
+
+/home/shinuohui/code/embassy_preempt/performance_test/embassy_test/target/debug/deps/thiserror-c142ba127df80043.d: /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/lib.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/aserror.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/display.rs /home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/provide.rs
+
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/lib.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/aserror.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/display.rs:
+/home/shinuohui/.cargo/registry/src/mirrors.ustc.edu.cn-61ef6e0cd06fb9b8/thiserror-1.0.63/src/provide.rs:
